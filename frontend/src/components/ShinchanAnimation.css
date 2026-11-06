@@ -1,0 +1,46 @@
+
+.shinchan-runner {
+  position: absolute;
+  left: 280px;
+  right: 0;
+  top: 50%;
+  height: 90px;
+  transform: translateY(-50%);
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.shinchan-character {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 85px;
+  height: 85px;
+  object-fit: contain;
+  z-index: 3;
+}
+
+.moving-coin {
+  position: absolute;
+  left: 0;
+  top: 27px;
+  font-family: Arial, sans-serif;
+  font-size: 32px;
+  font-weight: 900;
+  line-height: 1;
+  color: #c58a08;
+  text-shadow: 0 2px 0 #ffe9a1;
+  z-index: 2;
+  white-space: nowrap;
+  opacity: 1;
+  transform: scale(1);
+  transition:
+    opacity 0.15s ease,
+    transform 0.15s ease;
+}
+
+@media (max-width: 900px) {
+  .shinchan-runner {
+    display: none;
+  }
+}

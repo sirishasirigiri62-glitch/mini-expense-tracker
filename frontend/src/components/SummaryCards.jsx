@@ -64,10 +64,17 @@ function SummaryCards({
           </div>
         )}
 
-        <div className="jar-illustration">
-          <div className="cat-character">
-            {isOverspending ? "😿" : "😺"}
-          </div>
+        <div className="jar-illustration expense-illustration">
+         <div className="cat-character">
+        <img
+  src={
+    remainingPercentage <= 30
+      ? "/cats/sad-cat.png"
+      : "/cats/happy-cat.png"
+  }
+  alt="Jar cat"
+/>
+</div>
 
           <div
             className={`glass-jar ${isOverspending ? "jar-danger" : "jar-happy"}`}
@@ -124,12 +131,18 @@ function SummaryCards({
           <span className="expense-status">↗ Spending</span>
         </div>
 
-        <div className="jar-illustration">
+        <div className="jar-illustration budget-illustration">
           <div className="cat-character">
+  <div className="cat-character">
   <img
-    src={isOverspending ? "/cats/sad-cat.png" : "/cats/happy-cat.png"}
+    src={
+      remainingPercentage <= 30
+        ? "/cats/sad-cat.png"
+        : "/cats/happy-cat.png"
+    }
     alt="Jar cat"
   />
+</div>
 </div>
 
           <div

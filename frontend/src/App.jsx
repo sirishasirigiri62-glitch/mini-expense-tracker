@@ -5,6 +5,7 @@ import axios from "axios";
 import ExpenseForm from "./components/ExpenseForm";
 import ExpenseList from "./components/ExpenseList";
 import SummaryCards from "./components/SummaryCards";
+import ShinchanAnimation from "./components/ShinchanAnimation";
 
 import "./App.css";
 
@@ -21,6 +22,7 @@ const categories = [
 
 function App() {
   const today = new Date();
+
   const todayString = [
     today.getFullYear(),
     String(today.getMonth() + 1).padStart(2, "0"),
@@ -84,7 +86,7 @@ function App() {
     return String(value).slice(0, 10);
   };
 
-  // Filter expenses based on selected date/month/year
+  // Filter expenses
   const filteredExpenses = expenses.filter((expense) => {
     const expenseDate = getLocalDate(expense.expense_date);
 
@@ -237,6 +239,8 @@ function App() {
 
       {/* NAVBAR */}
       <header className="navbar">
+
+        {/* BRAND */}
         <div className="brand">
           <div className="brand-icon">₹</div>
 
@@ -246,10 +250,9 @@ function App() {
           </div>
         </div>
 
-        <div className="dashboard-status">
-          <span className="status-dot"></span>
-          Expense Dashboard
-        </div>
+        {/* SHINCHAN RUNNING AND COLLECTING COINS */}
+        <ShinchanAnimation />
+
       </header>
 
       <main className="dashboard">
