@@ -1,6 +1,4 @@
-
 import { useEffect, useRef } from "react";
-
 import "./ShinchanAnimation.css";
 
 export default function ShinchanAnimation() {
@@ -17,19 +15,14 @@ export default function ShinchanAnimation() {
     let animationId;
     let lastTime = 0;
     let characterX = 0;
-    let coins = [];
+    let nextCoinIndex = 8;
 
-    const setupCoins = () => {
-      const width = track.clientWidth;
-
-      coins = coinRefs.current.map((element, index) => ({
-        element,
-        x: width + 30 + (index * 55) + (Math.floor(index / 3) * 35),
-        collected: false,
-      }));
-    };
-
-    setupCoins();
+    const coins = coinRefs.current.map((element, index) => ({
+      element,
+      x: track.clientWidth + 30 + index * 55 +
+        Math.floor(index / 3) * 35,
+      collected: false,
+    }));
 
     const animate = (time) => {
       const delta = lastTime
@@ -41,7 +34,6 @@ export default function ShinchanAnimation() {
       const width = track.clientWidth;
       const characterWidth = character.offsetWidth;
 
-      // Shinchan walks from left to right
       characterX += 65 * delta;
 
       if (characterX >= width - characterWidth) {
@@ -50,39 +42,42 @@ export default function ShinchanAnimation() {
 
       character.style.left = `${characterX}px`;
 
-      // Coins continuously move from right to left
       coins.forEach((coin) => {
-        if (coin.collected) return;
-
         coin.x -= 150 * delta;
 
-        const coinCenter = coin.x + 15;
-        const characterFront = characterX + characterWidth * 0.8;
+        coin.element.style.left = `${coin.x}px`;
 
-        // Collect each coin when Shinchan reaches it
-        if (
-          coinCenter >= characterX &&
-          coinCenter <= characterFront
-        ) {
-          coin.collected = true;
-          coin.element.style.opacity = "0";
-          coin.element.style.transform = "scale(0)";
-          return;
+        if (!coin.collected) {
+          const characterRect = character.getBoundingClientRect();
+          const coinRect = coin.element.getBoundingClientRect();
+
+          const overlaps =
+            characterRect.left < coinRect.right - 5 &&
+            characterRect.right > coinRect.left + 5 &&
+            characterRect.top < coinRect.bottom &&
+            characterRect.bottom > coinRect.top;
+
+          if (overlaps) {
+            coin.collected = true;
+            coin.element.style.opacity = "0";
+            coin.element.style.transform = "scale(0)";
+          }
         }
 
-        // Send the coin back to the right for another round
         if (coin.x < -40) {
           const otherCoins = coins
             .filter((item) => item !== coin)
             .map((item) => item.x);
 
-          coin.x = Math.max(width, ...otherCoins) + 55;
+          const gap = nextCoinIndex % 3 === 0 ? 90 : 55;
+
+          coin.x = Math.max(width, ...otherCoins) + gap;
           coin.collected = false;
+
           coin.element.style.opacity = "1";
           coin.element.style.transform = "scale(1)";
+          nextCoinIndex++;
         }
-
-        coin.element.style.left = `${coin.x}px`;
       });
 
       animationId = requestAnimationFrame(animate);
