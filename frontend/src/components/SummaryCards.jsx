@@ -1,126 +1,204 @@
 
-function SummaryCards({ summary }) {
-    const formatCurrency = (amount) => {
-        return new Intl.NumberFormat("en-IN", {
-            style: "currency",
-            currency: "INR",
-            maximumFractionDigits: 2
-        }).format(Number(amount || 0));
-    };
+function SummaryCards({
+  totalExpenses,
+  budget,
+  remainingBudget,
+  transactionCount,
+  spendingPercentage,
+  remainingPercentage,
+  isOverspending,
+  topCategory,
+  showBudgetInput,
+  budgetInput,
+  setBudgetInput,
+  setShowBudgetInput,
+  saveBudget,
+  animateIcons,
+}) {
+  const formatMoney = (amount) =>
+    `₹${Number(amount).toLocaleString("en-IN", {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    })}`;
 
-    const categories = summary.categoryBreakdown || [];
+  const remainingFill = isOverspending
+    ? 0
+    : remainingPercentage;
 
-    const highestCategory = categories.length > 0
-        ? categories.reduce((highest, current) =>
-            Number(current.total) > Number(highest.total)
-                ? current
-                : highest
-        )
-        : null;
+  const expenseFill = Math.min(spendingPercentage, 100);
 
-    const total = Number(summary.totalExpenses || 0);
+  return (
+    <section className="summary-section">
 
-    return (
-        <div className="summary-section">
+      {/* BUDGET JAR */}
+      <div className="jar-card budget-card">
 
-            <div className="summary-grid">
+        <div className="jar-heading">
+          <div>
+            <span className="jar-label">YOUR MONEY LEFT</span>
+            <h3>Budget Jar</h3>
+          </div>
 
-                {/* Total Expenses */}
-                <div className="summary-card total-card">
-                    <div className="summary-icon">₹</div>
-                    <p>Total Expenses</p>
-                    <h2>{formatCurrency(total)}</h2>
-                    <span>Overall spending</span>
-                </div>
-
-                {/* Transaction Count */}
-                <div className="summary-card">
-                    <div className="summary-icon">📋</div>
-                    <p>Transactions</p>
-                    <h2>{summary.transactionCount || 0}</h2>
-                    <span>Total recorded expenses</span>
-                </div>
-
-                {/* Highest Spending Category */}
-                <div className="summary-card">
-                    <div className="summary-icon">🏷️</div>
-                    <p>Top Category</p>
-
-                    <h2 className="top-category">
-                        {highestCategory
-                            ? highestCategory.category
-                            : "None"}
-                    </h2>
-
-                    <span>
-                        {highestCategory
-                            ? formatCurrency(highestCategory.total)
-                            : "No spending recorded"}
-                    </span>
-                </div>
-
-            </div>
-
-            {/* Category Breakdown */}
-            <div className="category-card">
-
-                <div className="section-heading">
-                    <h2>Category Breakdown</h2>
-                    <p>Where your money goes</p>
-                </div>
-
-                {categories.length === 0 ? (
-                    <p className="empty-category">
-                        No category data available yet.
-                    </p>
-                ) : (
-
-                    <div className="category-list">
-
-                        {categories.map((item) => {
-
-                            const percentage = total > 0
-                                ? (Number(item.total) / total) * 100
-                                : 0;
-
-                            return (
-                                <div
-                                    className="category-item"
-                                    key={item.category}
-                                >
-
-                                    <div className="category-info">
-                                        <span>{item.category}</span>
-
-                                        <strong>
-                                            {formatCurrency(item.total)}
-                                        </strong>
-                                    </div>
-
-                                    <div className="progress-track">
-                                        <div
-                                            className="progress-fill"
-                                            style={{
-                                                width: `${percentage}%`
-                                            }}
-                                        />
-                                    </div>
-
-                                    <small>
-                                        {percentage.toFixed(1)}% of spending
-                                    </small>
-
-                                </div>
-                            );
-                        })}
-
-                    </div>
-                )}
-
-            </div>
-
+          <button
+            className="edit-budget"
+            onClick={() => {
+              setBudgetInput(String(budget));
+              setShowBudgetInput(!showBudgetInput);
+            }}
+          >
+            ✎ Edit
+          </button>
         </div>
-    );
+
+        {showBudgetInput && (
+          <div className="budget-editor">
+            <input
+              type="number"
+              min="1"
+              value={budgetInput}
+              onChange={(e) => setBudgetInput(e.target.value)}
+              placeholder="Enter monthly budget"
+            />
+
+            <button onClick={saveBudget}>Save</button>
+          </div>
+        )}
+
+        <div className="jar-illustration">
+          <div className="cat-character">
+            {isOverspending ? "😿" : "😺"}
+          </div>
+
+          <div
+            className={`glass-jar ${isOverspending ? "jar-danger" : "jar-happy"}`}
+            style={{ "--fill-level": `${remainingFill}%` }}
+          >
+            <div className="jar-liquid"></div>
+
+            <div className="jar-shine"></div>
+
+            <div className="jar-money">
+              ₹
+            </div>
+          </div>
+
+          <div className="jar-sparkle sparkle-one">✦</div>
+          <div className="jar-sparkle sparkle-two">✧</div>
+        </div>
+
+        <div className="jar-total">
+          <h2 className={isOverspending ? "negative-money" : ""}>
+            {formatMoney(remainingBudget)}
+          </h2>
+
+          <p>
+            {isOverspending
+              ? "You've exceeded your budget!"
+              : "Available budget remaining"}
+          </p>
+        </div>
+
+        <div className="jar-progress">
+          <div
+            className="jar-progress-fill green-fill"
+            style={{ width: `${remainingFill}%` }}
+          ></div>
+        </div>
+
+        <div className="jar-footer">
+          <span>Monthly budget</span>
+          <strong>{formatMoney(budget)}</strong>
+        </div>
+
+      </div>
+
+      {/* EXPENSE JAR */}
+      <div className="jar-card expense-card">
+
+        <div className="jar-heading">
+          <div>
+            <span className="jar-label">MONEY SPENT</span>
+            <h3>Expense Jar</h3>
+          </div>
+
+          <span className="expense-status">↗ Spending</span>
+        </div>
+
+        <div className="jar-illustration">
+          <div className="cat-character">
+  <img
+    src={isOverspending ? "/cats/sad-cat.png" : "/cats/happy-cat.png"}
+    alt="Jar cat"
+  />
+</div>
+
+          <div
+           className={`glass-jar expense-glass ${isOverspending ? "jar-danger" : ""}`}
+            style={{ "--fill-level": `${expenseFill}%` }}
+          >
+            <div className="jar-liquid expense-liquid"></div>
+
+            <div className="jar-shine"></div>
+
+            <div className="jar-money">₹</div>
+          </div>
+
+          <div className="jar-sparkle sparkle-one">✦</div>
+          <div className="jar-sparkle sparkle-two">✧</div>
+        </div>
+
+        <div className="jar-total">
+          <h2>{formatMoney(totalExpenses)}</h2>
+          <p>
+            {isOverspending
+              ? "Oh no! Budget exceeded!"
+              : "Total money spent"}
+          </p>
+        </div>
+
+        <div className="jar-progress">
+          <div
+            className="jar-progress-fill pink-fill"
+            style={{ width: `${expenseFill}%` }}
+          ></div>
+        </div>
+
+        <div className="jar-footer">
+          <span>Transactions</span>
+          <strong>{transactionCount}</strong>
+        </div>
+
+      </div>
+
+      {/* TOP CATEGORY */}
+      <div className="top-category-card">
+
+        <span className="jar-label">YOUR FAVOURITE SPENDING</span>
+
+        <h3>Top Category</h3>
+
+        <div className="top-category-icon">
+          {topCategory ? topCategory.icon : "🐾"}
+        </div>
+
+        <h2>{topCategory ? topCategory.name : "No expenses"}</h2>
+
+        <p>
+          {topCategory
+            ? formatMoney(topCategory.total)
+            : "Add an expense to get started"}
+        </p>
+
+        {topCategory && (
+          <span className="top-category-count">
+            {topCategory.count} payments made
+          </span>
+        )}
+
+      </div>
+
+    </section>
+  );
 }
 
 export default SummaryCards;
