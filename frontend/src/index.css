@@ -1,39 +1,51 @@
 
-/* Global styles */
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap');
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+:root {
+  font-family: 'DM Sans', sans-serif;
+  color: #172746;
+  background: #fffaf0;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  font-optical-sizing: auto;
+  font-weight: 400;
 }
 
-html {
-    scroll-behavior: smooth;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 body {
-    min-width: 320px;
-    min-height: 100vh;
-    font-family: 'DM Sans', sans-serif;
-    background-color: #f7f7fc;
-}
-
-#root {
-    min-height: 100vh;
+  min-width: 320px;
+  min-height: 100vh;
+  background: #fffaf0;
 }
 
 button,
 input,
-select,
-textarea {
-    font-family: inherit;
+select {
+  font: inherit;
 }
 
 button {
-    cursor: pointer;
+  cursor: pointer;
 }
 
-img {
-    max-width: 100%;
-    display: block;
+button:disabled {
+  cursor: not-allowed;
+}
+
+input,
+select {
+  outline: none;
+}
+
+::selection {
+  background: #f6a9ce;
+  color: #172746;
 }
