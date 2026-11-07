@@ -1091,8 +1091,92 @@
 /* CONTINUOUS COIN STREAM */
 
 
-@media (max-width: 900px) {
-  .shinchan-runner {
-    display: none;
-  }
+
+
+/* =================================
+   PINK CATEGORY BREAKDOWN SECTION
+================================= */
+
+.category-section {
+  background: linear-gradient(135deg, #fff0f5, #fce1eb);
+  border: 1px solid #f3c1d3;
+  box-shadow: 0 8px 25px rgba(158, 36, 91, 0.08);
+}
+
+.category-section .section-heading h2 {
+  color: #9E245B;
+}
+
+.category-section .section-heading p {
+  color: #a45c7b;
+}
+
+.category-section .category-title {
+  color: #9E245B;
+}
+
+.category-section .category-amount {
+  color: #8b194c;
+}
+
+.category-section .category-bar {
+  background: #f6d5e2;
+}
+
+.category-section .category-bar-fill {
+  background: linear-gradient(90deg, #B83272, #e94e9b);
+}
+
+.category-section .category-item:nth-child(even) .category-bar-fill {
+  background: linear-gradient(90deg, #9E245B, #d96b9b);
+}
+
+.category-section .category-bottom {
+  color: #a45c7b;
+}
+
+
+/* =================================
+   ADD NEW EXPENSE SECTION
+================================= */
+
+.expense-form-section {
+  background: linear-gradient(135deg, #fff0f5, #fbdce9);
+  border: 1px solid #f0bdd0;
+  border-radius: 22px;
+  box-shadow: 0 8px 25px rgba(158, 36, 91, 0.08);
+}
+
+.expense-form-section .section-heading h2 {
+  color: #9E245B;
+}
+
+.expense-form-section .section-heading p {
+  color: #a45c7b;
+}
+
+.expense-form-section .form-group label {
+  color: #9E245B;
+}
+
+.expense-form-section .form-group input,
+.expense-form-section .form-group select {
+  background: #fffafd;
+  border: 1px solid #edc1d2;
+}
+
+.expense-form-section .form-group input:focus,
+.expense-form-section .form-group select:focus {
+  border-color: #B83272;
+  box-shadow: 0 0 0 3px rgba(184, 50, 114, 0.12);
+}
+
+.expense-form-section .add-expense-button {
+  background: linear-gradient(90deg, #9E245B, #B83272);
+  color: white;
+  border-radius: 12px;
+}
+
+.expense-form-section .add-expense-button:hover {
+  background: #841b4b;
 }

@@ -11,6 +11,13 @@ export default function ShinchanAnimation() {
     const character = characterRef.current;
 
     if (!track || !character) return;
+    const isMobile = window.matchMedia("(max-width: 900px)").matches;
+
+if (isMobile) {
+  character.style.left = "auto";
+  character.style.right = "0";
+  return;
+}
 
     let animationId;
     let lastTime = 0;
