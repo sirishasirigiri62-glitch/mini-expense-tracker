@@ -23,7 +23,7 @@
 .navbar {
   height: 105px;
   padding: 18px 7%;
-  background: #ffffff;
+  background:#f9e9ac;
   border-bottom: 1px solid var(--border);
   display: flex;
   align-items: center;
