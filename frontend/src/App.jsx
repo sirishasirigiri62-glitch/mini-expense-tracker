@@ -9,8 +9,7 @@ import ShinchanAnimation from "./components/ShinchanAnimation";
 
 import "./App.css";
 
-const API_URL = "https://dsj5r5p7-5000.inc1.devtunnels.ms/";
-
+const API_URL = "https://expense-tracker-api.sirishasirigiri62.workers.dev/api/expenses";
 const categories = [
   { name: "Food", icon: "🍔" },
   { name: "Transport", icon: "🚌" },

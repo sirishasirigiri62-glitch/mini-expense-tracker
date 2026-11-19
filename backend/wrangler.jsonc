@@ -1,0 +1,16 @@
+
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "expense-tracker-api",
+  "main": "worker.mjs",
+  "compatibility_date": "2026-11-19",
+  "compatibility_flags": [
+    "nodejs_compat"
+  ],
+  "hyperdrive": [
+    {
+      "binding": "HYPERDRIVE",
+      "id": "9c5b85717a0f453bae88ee9b5dcdee54"
+    }
+  ]
+}
